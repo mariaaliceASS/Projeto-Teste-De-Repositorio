@@ -1,6 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -13,11 +12,13 @@ import javax.swing.table.DefaultTableModel;
  * @author Adm
  */
 public class listagemVIEW extends javax.swing.JFrame {
-    ProdutosDAO pd = new ProdutosDAO();
-    
+
+    /**
+     * Creates new form listagemVIEW
+     */
     public listagemVIEW() {
         initComponents();
-        
+        listarProdutos();
     }
 
     /**
@@ -44,10 +45,13 @@ public class listagemVIEW extends javax.swing.JFrame {
 
         listaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "ID", "Nome", "Valor", "Status"
             }
         ));
         jScrollPane1.setViewportView(listaProdutos);
@@ -132,12 +136,12 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-       /* String id = id_produto_venda.getText();
+        String id = id_produto_venda.getText();
         
         ProdutosDAO produtosdao = new ProdutosDAO();
         
         //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();*/
+        listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -197,24 +201,25 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JTable listaProdutos;
     // End of variables declaration//GEN-END:variables
 
-    private DefaultTableModel montarTabela(String txtBuscar) {
-            String[] colunas = {"ID", "Nome", "Data de Lançamento", "Categoria"};
-
+    private void listarProdutos(){
+        try {
+            ProdutosDAO produtosdao = new ProdutosDAO();
             
-            DefaultTableModel model = new DefaultTableModel(colunas, 0);
-                        
-            List<ProdutosDTO> listaProdutos;
-
-            listaProdutos = ProdutosDAO.listarTodos();            
-            for(int i = 0; i < listaProdutos.size(); i++){
+            DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
+            model.setNumRows(0);
+            
+            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
+            
+            for(int i = 0; i < listagem.size(); i++){
                 model.addRow(new Object[]{
-                    listaProdutos.get(i).getId(),
-                    listaProdutos.get(i).getNome(),
-                    listaProdutos.get(i).getValor(),
-                    listaProdutos.get(i).getStatus()
+                    listagem.get(i).getId(),
+                    listagem.get(i).getNome(),
+                    listagem.get(i).getValor(),
+                    listagem.get(i).getStatus()
                 });
             }
-        return model;
+        } catch (Exception e) {
+        }
     
     }
 }
