@@ -1,6 +1,5 @@
 package leiloesTDSat.model;
 
-
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
@@ -78,4 +77,59 @@ public class ProdutosDAO {
         return listaProdutos;
     }
 
+    public static void venderProduto(int id) throws SQLException {
+        try {
+            conectaDAO conn = new conectaDAO();
+            conn.conectar();
+
+            String sql = "UPDATE produtos SET status = ? WHERE id = ?;";
+            PreparedStatement consulta = conn.getConexao().prepareStatement(sql);
+
+            consulta.setString(1, "Vendido");
+            consulta.setInt(2, id);
+
+            int linhas = consulta.executeUpdate();
+
+            if (linhas == 0) {
+                JOptionPane.showMessageDialog(null, "Não a produto com esse id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public static List<ProdutosDTO> listarProdutosVendidos() {
+
+        List<ProdutosDTO> lista = new ArrayList<ProdutosDTO>();
+        try {
+
+            conectaDAO conexao = new conectaDAO();
+            conexao.conectar();
+
+            String sql = "SELECT * FROM produtos WHERE status = ?;";
+            PreparedStatement consulta = conexao.getConexao().prepareStatement(sql);
+            consulta.setString(1, "Vendido");
+            
+            ResultSet resposta = consulta.executeQuery();
+
+            while (resposta.next()) {
+
+                ProdutosDTO objProduto = new ProdutosDTO();
+
+                objProduto.setId(resposta.getInt("id"));
+                objProduto.setNome(resposta.getString("nome"));
+                objProduto.setValor(resposta.getInt("valor"));
+                objProduto.setStatus(resposta.getString("status"));
+
+                lista.add(objProduto);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }
