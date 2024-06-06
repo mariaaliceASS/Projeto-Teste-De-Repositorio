@@ -1,6 +1,10 @@
+package leiloesTDSat.view;
 
 
 
+
+import leiloesTDSat.model.ProdutosDAO;
+import leiloesTDSat.model.ProdutosDTO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 

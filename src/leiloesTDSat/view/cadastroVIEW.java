@@ -1,5 +1,10 @@
+package leiloesTDSat.view;
 
 
+
+import leiloesTDSat.view.listagemVIEW;
+import leiloesTDSat.model.ProdutosDAO;
+import leiloesTDSat.model.ProdutosDTO;
 import javax.swing.JOptionPane;
 
 
