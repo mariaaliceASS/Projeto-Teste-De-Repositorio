@@ -142,7 +142,7 @@ public class listagemVIEW extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        refresh();
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -153,9 +153,51 @@ public class listagemVIEW extends javax.swing.JFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
-
+    
+    public void refresh() {        
+        listaProdutos.setModel(montarTabela(null));
+        jScrollPane1.setViewportView(listaProdutos);
+    }
+    
     private void id_produto_vendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_produto_vendaKeyReleased
+                String idText = id_produto_venda.getText();
 
+        if (!idText.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idText);
+
+                ProdutosDAO p = new ProdutosDAO();
+
+                ProdutosDTO pr = ProdutosDAO.buscarId(id);
+
+                DefaultTableModel tableModel = new DefaultTableModel();
+                tableModel.addColumn("ID");
+                tableModel.addColumn("Nome");
+                tableModel.addColumn("Valor");
+                tableModel.addColumn("Status");
+
+                tableModel.setRowCount(0);
+
+                if (pr != null) {
+                    String[] rowData = {
+                        String.valueOf(pr.getId()),
+                        pr.getNome(),
+                        String.valueOf(pr.getValor()),
+                        pr.getStatus()
+                    };
+                    tableModel.addRow(rowData);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Produto não encontrado para o ID fornecido.");
+                }
+                listaProdutos.setModel(tableModel);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "O ID deve ser um número inteiro.");
+                id_produto_venda.setText("");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, insira um ID para buscar.");
+        }
+        
     }//GEN-LAST:event_id_produto_vendaKeyReleased
 
     /**
