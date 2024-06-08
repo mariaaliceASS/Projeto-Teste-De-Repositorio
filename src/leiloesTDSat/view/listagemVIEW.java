@@ -1,25 +1,23 @@
 package leiloesTDSat.view;
 
-
-
-
 import leiloesTDSat.model.ProdutosDAO;
 import leiloesTDSat.model.ProdutosDTO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Adm
  */
 public class listagemVIEW extends javax.swing.JFrame {
+
     ProdutosDAO pd = new ProdutosDAO();
-    
+
     public listagemVIEW() {
         initComponents();
 
@@ -56,6 +54,11 @@ public class listagemVIEW extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Lucida Fax", 0, 14)); // NOI18N
         jLabel2.setText("Vender Produto (ID)");
 
+        id_produto_venda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                id_produto_vendaKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(id_produto_venda);
 
         btnVender.setText("Vender");
@@ -130,22 +133,30 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-     /*   String id = id_produto_venda.getText();
-        
+        String id = id_produto_venda.getText();
+
         ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();*/
+        try {
+            produtosdao.venderProduto(Integer.parseInt(id));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
-        vendasVIEW vendas = new vendasVIEW(); 
+        vendasVIEW vendas = new vendasVIEW();
         vendas.setVisible(true);
     }//GEN-LAST:event_btnVendasActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
+
+    private void id_produto_vendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_id_produto_vendaKeyReleased
+
+    }//GEN-LAST:event_id_produto_vendaKeyReleased
 
     /**
      * @param args the command line arguments
@@ -196,25 +207,25 @@ public class listagemVIEW extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private DefaultTableModel montarTabela(String txtBuscar) {
-            String[] colunas = {"ID", "Nome", "Valor", "Status"};
-            
-            DefaultTableModel model = new DefaultTableModel(colunas, 0);
+        String[] colunas = {"ID", "Nome", "Valor", "Status"};
 
-            List<ProdutosDTO> listaProdutos;
+        DefaultTableModel model = new DefaultTableModel(colunas, 0);
 
-            listaProdutos = ProdutosDAO.listarTodos(); 
-            
-            for(int i = 0; i < listaProdutos.size(); i++){         
-                ProdutosDTO objProdutos = listaProdutos.get(i);
-                
-                String[] linha = {
-                    Integer.toString(objProdutos.getId()),
-                    objProdutos.getNome(),
-                    Integer.toString(objProdutos.getValor()),
-                    objProdutos.getStatus()
-                };
-                model.addRow(linha);
-            }
-            return model;
+        List<ProdutosDTO> listaProdutos;
+
+        listaProdutos = ProdutosDAO.listarTodos();
+
+        for (int i = 0; i < listaProdutos.size(); i++) {
+            ProdutosDTO objProdutos = listaProdutos.get(i);
+
+            String[] linha = {
+                Integer.toString(objProdutos.getId()),
+                objProdutos.getNome(),
+                Integer.toString(objProdutos.getValor()),
+                objProdutos.getStatus()
+            };
+            model.addRow(linha);
+        }
+        return model;
     }
 }

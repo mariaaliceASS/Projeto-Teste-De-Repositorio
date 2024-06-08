@@ -124,6 +124,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="id_produto_venda">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="id_produto_vendaKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

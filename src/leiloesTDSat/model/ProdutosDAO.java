@@ -132,4 +132,34 @@ public class ProdutosDAO {
         }
         return lista;
     }
+        public static ProdutosDTO buscarId(int id) {
+         ProdutosDTO objProduto = new ProdutosDTO();
+        
+        try {
+            conectaDAO conexao = new conectaDAO();
+            conexao.conectar();
+
+            String sql = "SELECT * FROM produtos WHERE id=?";
+            PreparedStatement consulta = conexao.getConexao().prepareStatement(sql);
+            consulta.setInt(1, id);
+
+            ResultSet resposta = consulta.executeQuery();
+
+            if (resposta.next()) {
+
+                objProduto.setId(resposta.getInt("id"));
+                objProduto.setNome(resposta.getString("nome"));
+                objProduto.setValor(resposta.getInt("valor"));
+                objProduto.setStatus(resposta.getString("status"));
+            }
+            
+            conexao.desconectarLeilao();
+
+        } catch (SQLException ex) {
+            System.out.println("Erro ao buscar o " + id + " no banco de dados!");
+        }
+        
+        return objProduto;
+    }
+
 }
