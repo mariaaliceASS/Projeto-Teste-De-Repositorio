@@ -1,3 +1,5 @@
+package leiloesTDSat.model;
+
 
 public class ProdutosDTO {
 
